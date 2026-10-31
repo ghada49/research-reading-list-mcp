@@ -16,9 +16,10 @@ automatically, so the combined tool returns the candidates without saving.
 Its `steps` field shows whether the save step actually ran. Repeating a save
 was another case worth checking; the database's primary key prevents duplicate
 entries even after restarting the server. Testing also exposed a problem beyond
-the tool logic: two live routing cases passed, but another failed because an
-HTTP connection was reused after its event loop had closed. The tests now give
-each case its own API client, although that live fix still needs a rerun.
-This showed why checking the Python functions alone was not enough. I would
+the tool logic: an HTTP connection was reused after its event loop had closed.
+Giving each test its own API client resolved that issue. All seven scenarios
+then passed with the real model, including duplicate saves, ambiguous requests,
+and books or IDs missing from the catalog. This showed why checking the Python
+functions alone was not enough. I would
 improve the search and expand the catalog next, since eight seeded books are
 useful for a repeatable demonstration but limited as a research assistant.
