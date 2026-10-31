@@ -1,0 +1,10 @@
+[
+  {"id":"B001","title":"Deep Learning","authors":["Ian Goodfellow","Yoshua Bengio","Aaron Courville"],"description":"Neural networks, optimization, and representation learning for machine learning research."},
+  {"id":"B002","title":"Pattern Recognition and Machine Learning","authors":["Christopher M. Bishop"],"description":"Probabilistic models, Bayesian inference, and statistical machine learning."},
+  {"id":"B003","title":"Artificial Intelligence: A Modern Approach","authors":["Stuart Russell","Peter Norvig"],"description":"Artificial intelligence, search, planning, reasoning, and intelligent agents."},
+  {"id":"B004","title":"Introduction to Algorithms","authors":["Thomas H. Cormen","Charles E. Leiserson","Ronald L. Rivest","Clifford Stein"],"description":"Algorithms, data structures, graph search, and computational complexity."},
+  {"id":"B005","title":"Reinforcement Learning: An Introduction","authors":["Richard S. Sutton","Andrew G. Barto"],"description":"Markov decision processes, temporal difference learning, and policy optimization."},
+  {"id":"B006","title":"Designing Data-Intensive Applications","authors":["Martin Kleppmann"],"description":"Distributed systems, storage, replication, and reliable data processing."},
+  {"id":"B007","title":"The Elements of Statistical Learning","authors":["Trevor Hastie","Robert Tibshirani","Jerome Friedman"],"description":"Statistical machine learning, regression, classification, and model selection."},
+  {"id":"B008","title":"Speech and Language Processing","authors":["Daniel Jurafsky","James H. Martin"],"description":"Natural language processing, speech recognition, and computational linguistics."}
+]

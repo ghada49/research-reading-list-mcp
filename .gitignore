@@ -1,0 +1,37 @@
+# Local credentials (the example contains placeholders only).
+.env
+.env.*
+!.env.example
+
+# Python environments and generated caches.
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.test-tmp*/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# Persistent local state and temporary/generated files.
+data/
+*.sqlite
+*.sqlite3*
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.log
+*.tmp
+tmp/
+output/
+
+# Local development notes are not assignment submission files.
+/PLAN.md
+/AUDIT.md
+/VERIFICATION.md
+/DEMO.md
+/requirements-lock.txt
