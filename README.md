@@ -7,12 +7,58 @@ not publisher-provided metadata. No external catalog API is needed.
 
 ## Architecture
 
-```text
-User prompt -> OpenAI Agents SDK host -> model chooses discovered MCP tool
-            -> MCPServerStdio client -> FastMCP subprocess -> shared service
-            <- tool result          <- stdio response    <- catalog / SQLite
-            -> model's final answer
+```mermaid
+flowchart TB
+    user([User])
+    model["OpenAI model<br/>Chooses tools and writes the final answer"]
+
+    subgraph host["HOST · Python application"]
+        agent["Agent + Runner<br/>OpenAI Agents SDK"]
+        client["MCP CLIENT<br/>VisibleMCPServer / MCPServerStdio"]
+        agent <-->|"Tool choice / returned evidence"| client
+    end
+
+    subgraph server["SERVER · Local FastMCP subprocess"]
+        gateway["FastMCP<br/>Tool discovery and request handling"]
+        data["DATA<br/>search_catalog"]
+        action["ACTION<br/>save_to_reading_list"]
+        orchestration["ORCHESTRATION<br/>find_and_save_book"]
+        search["Shared search logic"]
+        save["Shared save logic"]
+
+        gateway --> data & action & orchestration
+        data --> search
+        action --> save
+        orchestration -.->|"1 · Search"| search
+        orchestration -.->|"2 · Save only a unique match"| save
+    end
+
+    catalog[("Seeded catalog<br/>catalog.json")]
+    database[("Persistent reading list<br/>SQLite")]
+
+    user <-->|"Natural-language request / final response"| agent
+    agent <-->|"Model API"| model
+    client <-->|"MCP requests and results · stdio"| gateway
+    search -->|"Read only"| catalog
+    save -->|"Validate ID · prevent duplicates · commit"| database
+
+    classDef person fill:#f1f5f9,stroke:#64748b,color:#0f172a
+    classDef sdk fill:#eef2ff,stroke:#6366f1,color:#312e81
+    classDef tool fill:#ecfdf5,stroke:#10b981,color:#064e3b
+    classDef logic fill:#f0fdfa,stroke:#14b8a6,color:#134e4a
+    classDef storage fill:#fffbeb,stroke:#f59e0b,color:#78350f
+
+    class user person
+    class agent,client,model sdk
+    class gateway,data,action,orchestration tool
+    class search,save logic
+    class catalog,database storage
+    style host fill:#fafaff,stroke:#a5b4fc,color:#312e81
+    style server fill:#f7fefb,stroke:#6ee7b7,color:#064e3b
 ```
+
+Dashed arrows are internal Python calls within the orchestration tool, not
+additional MCP requests. An ambiguous search stops before the save step.
 
 The host imports no service implementation. It supplies `mcp_servers=[server]`
 to the agent, so SDK tool discovery and execution use a real MCP connection.
